@@ -4,21 +4,6 @@ import FullPageLayout from '../components/layouts/FullPageLayout';
 const Home = () => {
   return (
     <FullPageLayout>
-      {/* <div className="text-center pt-3">
-        <h1>BIENVENUE SUR L'APPLICATION GSB FRANCE</h1>
-        <div>
-          <img
-            src="../logo.png"
-            className="d-inline-block align-top"
-            alt="logo"
-          />
-        </div>
-        <span>
-          Application de gestion des praticiens et médicaments - pour pouvez en
-          ajouter, modifier et supprimer - possibilité également de filtrer les
-          résultats
-        </span>
-      </div> */}
       <header class="bg-primary py-5 mb-5">
         <div class="container h-100">
           <div class="row h-100 align-items-center">

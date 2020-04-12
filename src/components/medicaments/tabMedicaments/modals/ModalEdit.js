@@ -48,8 +48,6 @@ const ModalEdit = ({ medicament }) => {
   };
 
   const updateMedicament = async () => {
-    console.log(state);
-
     await fetch(
       `http://localhost:4466/medicaments/id/${medicament.depotLegal}`,
       {
@@ -70,7 +68,6 @@ const ModalEdit = ({ medicament }) => {
       }
     )
       .then((res) => {
-        console.log(res);
         toggleModal();
       })
       .catch((err) => {
