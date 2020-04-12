@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 export const FullPageLayout = ({ children }) => {
   return (
-    <>
+    <div>
       <nav className="navbar navbar-expand-md navbar-light bg-light">
         <NavLink to="/" className="navbar-brand">
           <img
@@ -27,25 +27,10 @@ export const FullPageLayout = ({ children }) => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-            <li className="nav-item dropdown">
-              <NavLink
-                className="nav-link dropdown-toggle hover-link"
-                to="#"
-                id="navbarDropdownMenuLink"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
+            <li className="nav-item">
+              <NavLink to="/praticiens" className="nav-link hover-link">
                 Praticiens
               </NavLink>
-              <div
-                className="dropdown-menu"
-                aria-labelledby="navbarDropdownMenuLink"
-              >
-                <NavLink to="/praticiens" className="nav-link hover-link">
-                  Liste
-                </NavLink>
-              </div>
             </li>
 
             <li className="nav-item">
@@ -56,15 +41,10 @@ export const FullPageLayout = ({ children }) => {
           </ul>
         </div>
       </nav>
-      <div className="container-fluid">{children}</div>
-      <footer className="page-footer font-small bg-light pt-4 mt-4">
-        <div className="mt-md-0 mt-3"></div>
-
-        <div className="footer-copyright text-center py-3">
-          © 2020 - GSB FRANCE
-        </div>
-      </footer>
-    </>
+      <div className="container-fluid bg-light" style={{ height: '100vh' }}>
+        {children}
+      </div>
+    </div>
   );
 };
 

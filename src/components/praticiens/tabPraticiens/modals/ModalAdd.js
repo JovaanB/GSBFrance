@@ -3,23 +3,23 @@ import axios from 'axios';
 import $ from 'jquery';
 import FormPraticien from '../forms/FormPraticien';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserEdit } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-const ModalEdit = ({ praticien }) => {
+const ModalAdd = () => {
   const [state, setState] = useState({
-    id: praticien.id,
-    nom: praticien.nom,
-    prenom: praticien.prenom,
-    adresse: praticien.adresse,
-    coef_notoriete: praticien.coef_notoriete,
-    code_postal: praticien.code_postal,
-    id_ville: praticien.id_ville,
-    villes: [{ id: praticien.id_ville, nom: praticien.ville }],
-    code_type_praticien: praticien.code_type_praticien,
+    id: '',
+    nom: '',
+    prenom: '',
+    adresse: '',
+    coef_notoriete: '',
+    code_postal: '',
+    id_ville: '',
+    villes: [{ id: '', nom: '' }],
+    code_type_praticien: '',
     types_praticien: [
       {
-        code: praticien.code_type_praticien,
-        libelle: praticien.type_praticien,
+        code: '',
+        libelle: '',
       },
     ],
     success: true,
@@ -34,13 +34,14 @@ const ModalEdit = ({ praticien }) => {
       setState({
         ...state,
         types_praticien: response.data,
+        code_type_praticien: response.data[0].code,
       });
     });
   };
 
   const toggleModal = () => {
     fetchTypes();
-    $(`#ModalEdit${praticien.id}`).modal('toggle');
+    $(`#ModalAdd`).modal('toggle');
   };
 
   const handleUpdate = (event) => {
@@ -67,15 +68,14 @@ const ModalEdit = ({ praticien }) => {
     }
   };
 
-  const updatePraticien = async () => {
-    await fetch(`http://localhost:4466/praticiens/id/${praticien.id}`, {
-      method: 'PUT',
+  const addPraticien = async () => {
+    await fetch(`http://localhost:4466/praticiens`, {
+      method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id: state.id,
         nom: state.nom,
         prenom: state.prenom,
         adresse: state.adresse,
@@ -96,24 +96,24 @@ const ModalEdit = ({ praticien }) => {
     <>
       <button
         type="button"
-        className="btn btn-primary"
+        className="btn btn-outline-success my-2 add-new"
         data-toggle="modal"
         onClick={toggleModal}
       >
-        <FontAwesomeIcon icon={faUserEdit} />
+        <FontAwesomeIcon icon={faPlus} />
       </button>
       <div
         className="modal fade"
-        id={`ModalEdit${praticien.id}`}
+        id={`ModalAdd`}
         role="dialog"
-        aria-labelledby={`Modal${praticien.id}`}
+        aria-labelledby={`ModalAdd`}
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header text-center">
-              <h5 className="modal-title" id={`Modal${praticien.id}`}>
-                Éditer
+              <h5 className="modal-title" id={`ModalAdd`}>
+                Ajouter
               </h5>
               <button
                 type="button"
@@ -141,10 +141,10 @@ const ModalEdit = ({ praticien }) => {
               </button>
               <button
                 type="button"
-                className="btn btn-primary"
-                onClick={updatePraticien}
+                className="btn btn-success"
+                onClick={addPraticien}
               >
-                Enregistrer
+                Ajouter
               </button>
             </div>
           </div>
@@ -154,4 +154,4 @@ const ModalEdit = ({ praticien }) => {
   );
 };
 
-export default ModalEdit;
+export default ModalAdd;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import AllPraticiens from './pages/AllPraticiens';
+import AllMedicaments from './pages/AllMedicaments';
 import './styles/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
@@ -17,7 +18,7 @@ function App() {
             <p>Accueil</p>
           </Route>
           <Route path="/medicaments">
-            <p>Medicaments</p>
+            <AllMedicaments />
           </Route>
         </Switch>
       </div>

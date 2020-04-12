@@ -3,8 +3,10 @@ import ModalEdit from './modals/ModalEdit';
 import ModalAdd from './modals/ModalAdd';
 import ModalDelete from './modals/ModalDelete';
 import Loader from '../../layouts/Loader';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 
-const TabPraticiens = ({ praticiens, loading }) => {
+const TabMedicaments = ({ medicaments, loading }) => {
   return (
     <>
       <div
@@ -12,7 +14,6 @@ const TabPraticiens = ({ praticiens, loading }) => {
         style={{
           height: '65vh',
           overflow: 'auto',
-          // width: '85vw',
           margin: '0 auto',
         }}
       >
@@ -24,7 +25,7 @@ const TabPraticiens = ({ praticiens, loading }) => {
               <div className="row">
                 <div className="col-sm-8">
                   <h2>
-                    Liste des <b>Praticiens</b>
+                    Liste des <b>Médicaments</b>
                   </h2>
                 </div>
                 <div className="col-sm-4">
@@ -37,32 +38,36 @@ const TabPraticiens = ({ praticiens, loading }) => {
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Nom</th>
-                  <th scope="col">Prénom</th>
-                  <th scope="col">Adresse</th>
-                  <th scope="col">Coef notoriété</th>
-                  <th scope="col">Ville</th>
-                  <th scope="col">Type</th>
+                  <th scope="col">Famille</th>
+                  <th scope="col">Composition</th>
+                  <th scope="col">Effets</th>
+                  <th scope="col">Contre indication</th>
+                  <th scope="col">Prix échantillon</th>
                   <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {praticiens.map((praticien) => (
-                  <tr key={praticien.id}>
-                    <td>{praticien.id}</td>
-                    <td>{praticien.nom}</td>
-                    <td>{praticien.prenom}</td>
-                    <td>{praticien.adresse}</td>
-                    <td>{praticien.coef_notoriete}</td>
-                    <td>{praticien.ville}</td>
-                    <td>{praticien.type_praticien}</td>
+                {medicaments.map((medicament) => (
+                  <tr key={medicament.depotLegal}>
+                    <td>{medicament.depotLegal}</td>
+                    <td>{medicament.nom}</td>
+                    <td>{medicament.famille}</td>
+                    <td>{medicament.composition}</td>
+                    <td>{medicament.effets}</td>
+                    <td>{medicament.contreIndications}</td>
+                    <td>
+                      {medicament.prixEchantillons !== null
+                        ? medicament.prixEchantillons
+                        : 'Non renseigné'}
+                    </td>
                     <td>
                       <div
                         className="btn-group"
                         role="group"
                         aria-label="actions buttons"
                       >
-                        <ModalEdit praticien={praticien} />
-                        <ModalDelete praticien={praticien} />
+                        <ModalEdit medicament={medicament} />
+                        <ModalDelete medicament={medicament} />
                       </div>
                     </td>
                   </tr>
@@ -76,4 +81,4 @@ const TabPraticiens = ({ praticiens, loading }) => {
   );
 };
 
-export default TabPraticiens;
+export default TabMedicaments;

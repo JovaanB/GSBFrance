@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import TabPraticiens from '../components/praticiens/tabPraticiens/TabPraticiens';
-import Pagination from '../components/praticiens/tabPraticiens/Pagination';
+import TabMedicaments from '../components/medicaments/tabMedicaments/TabMedicaments';
+import Pagination from '../components/medicaments/tabMedicaments/Pagination';
 import FullPageLayout from '../components/layouts/FullPageLayout';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 
-const AllPraticiens = () => {
-  const [praticiens, setPraticiens] = useState([]);
+const AllMedicaments = () => {
+  const [medicaments, setMedicaments] = useState([]);
   const [nombrePages, setNombrePages] = useState(0);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,18 +34,18 @@ const AllPraticiens = () => {
       if (filter !== '') {
         if (mounted) {
           res = await axios.get(
-            `http://localhost:4466/praticiens/${filter}/${limit}/${currentPage}`
+            `http://localhost:4466/medicaments/${filter}/${limit}/${currentPage}`
           );
         }
       }
     } else {
       if (mounted) {
         res = await axios.get(
-          `http://localhost:4466/praticiens/${limit}/${currentPage}`
+          `http://localhost:4466/medicaments/${limit}/${currentPage}`
         );
       }
     }
-    setPraticiens(res.data.praticiens);
+    setMedicaments(res.data.medicaments);
     setNombrePages(Math.ceil(res.data.count / limit));
     setLoading(false);
     return () => (mounted = false);
@@ -70,7 +70,7 @@ const AllPraticiens = () => {
           className="row d-flex justify-content-between pt-3"
           style={{ width: '90vw', margin: '0 auto' }}
         >
-          <div className="col-12 col-md-6">
+          <div className="col-12 col-md-6 my-1">
             <input
               type="text"
               placeholder="Recherche"
@@ -80,25 +80,26 @@ const AllPraticiens = () => {
             />
           </div>
           <button
-            className="col-12 col-md-2 form-control btn btn-info mx-3"
+            className="col-12 col-md-2 form-control btn btn-info my-1"
             onClick={() => handleSearch(false)}
           >
             {' '}
             <FontAwesomeIcon icon={faSearch} />
           </button>
 
-          <input
+          <button
             type="submit"
-            value="Tout"
-            className="col-12 col-md-2 form-control btn btn-primary mx-3"
+            className="col-12 col-md-2 form-control btn btn-primary my-1"
             onClick={() => handleSearch(true)}
-          />
+          >
+            <FontAwesomeIcon icon={faSyncAlt} />
+          </button>
         </div>
-        <TabPraticiens praticiens={praticiens} loading={loading} />
+        <TabMedicaments medicaments={medicaments} loading={loading} />
         <Pagination pageCount={nombrePages} paginate={paginate} />
       </div>
     </FullPageLayout>
   );
 };
 
-export default AllPraticiens;
+export default AllMedicaments;

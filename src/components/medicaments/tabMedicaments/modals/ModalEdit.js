@@ -1,46 +1,42 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import $ from 'jquery';
-import FormPraticien from '../forms/FormPraticien';
+import FormMedicament from '../forms/FormMedicaments';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserEdit } from '@fortawesome/free-solid-svg-icons';
 
-const ModalEdit = ({ praticien }) => {
+const ModalEdit = ({ medicament }) => {
   const [state, setState] = useState({
-    id: praticien.id,
-    nom: praticien.nom,
-    prenom: praticien.prenom,
-    adresse: praticien.adresse,
-    coef_notoriete: praticien.coef_notoriete,
-    code_postal: praticien.code_postal,
-    id_ville: praticien.id_ville,
-    villes: [{ id: praticien.id_ville, nom: praticien.ville }],
-    code_type_praticien: praticien.code_type_praticien,
-    types_praticien: [
-      {
-        code: praticien.code_type_praticien,
-        libelle: praticien.type_praticien,
-      },
+    depotLegal: medicament.depotLegal,
+    nom: medicament.nom,
+    codeFamille: medicament.codeFamille,
+    familles: [
+      { FAM_CODE: medicament.codeFamille, FAM_LIBELLE: medicament.famille },
     ],
+    composition: medicament.composition,
+    effets: medicament.effets,
+    contreIndications: medicament.contreIndications,
+    prixEchantillons: medicament.prixEchantillons,
     success: true,
     errorMessage: '',
   });
 
-  const fetchTypes = async () => {
+  const fetchFamilles = async () => {
     axios({
       method: 'GET',
-      url: `http://localhost:4466/types/`,
+      url: `http://localhost:4466/familles/`,
     }).then((response) => {
       setState({
         ...state,
-        types_praticien: response.data,
+        familles: response.data,
+        codeFamille: response.data[0].FAM_CODE,
       });
     });
   };
 
   const toggleModal = () => {
-    fetchTypes();
-    $(`#ModalEdit${praticien.id}`).modal('toggle');
+    fetchFamilles();
+    $(`#ModalEdit${medicament.depotLegal}`).modal('toggle');
   };
 
   const handleUpdate = (event) => {
@@ -49,42 +45,32 @@ const ModalEdit = ({ praticien }) => {
       ...state,
       [event.target.name]: value,
     });
-
-    if (event.target.name === 'code_postal') {
-      if (value.length === 5 && isNaN(value) === false) {
-        axios({
-          method: 'GET',
-          url: `http://localhost:4466/villes/${state.code_postal}`,
-        }).then((response) => {
-          setState({
-            ...state,
-            villes: response.data,
-            id_ville: response.data[0].id,
-            code_postal: value,
-          });
-        });
-      }
-    }
   };
 
-  const updatePraticien = async () => {
-    await fetch(`http://localhost:4466/praticiens/id/${praticien.id}`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: state.id,
-        nom: state.nom,
-        prenom: state.prenom,
-        adresse: state.adresse,
-        coef_notoriete: state.coef_notoriete,
-        code_type_praticien: state.code_type_praticien,
-        id_ville: state.id_ville,
-      }),
-    })
+  const updateMedicament = async () => {
+    console.log(state);
+
+    await fetch(
+      `http://localhost:4466/medicaments/id/${medicament.depotLegal}`,
+      {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          MED_DEPOTLEGAL: state.depotLegal,
+          MED_NOMCOMMERCIAL: state.nom,
+          FAM_CODE: state.codeFamille,
+          MED_COMPOSITION: state.composition,
+          MED_EFFETS: state.effets,
+          MED_CONTREINDIC: state.contreIndications,
+          MED_PRIXECHANTILLON: state.prixEchantillons,
+        }),
+      }
+    )
       .then((res) => {
+        console.log(res);
         toggleModal();
       })
       .catch((err) => {
@@ -104,15 +90,15 @@ const ModalEdit = ({ praticien }) => {
       </button>
       <div
         className="modal fade"
-        id={`ModalEdit${praticien.id}`}
+        id={`ModalEdit${medicament.depotLegal}`}
         role="dialog"
-        aria-labelledby={`Modal${praticien.id}`}
+        aria-labelledby={`Modal${medicament.depotLegal}`}
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header text-center">
-              <h5 className="modal-title" id={`Modal${praticien.id}`}>
+              <h5 className="modal-title" id={`Modal${medicament.depotLegal}`}>
                 Éditer
               </h5>
               <button
@@ -125,11 +111,7 @@ const ModalEdit = ({ praticien }) => {
               </button>
             </div>
             <div className="modal-body">
-              <FormPraticien
-                hasId={true}
-                state={state}
-                handleUpdate={handleUpdate}
-              />
+              <FormMedicament state={state} handleUpdate={handleUpdate} />
             </div>
             <div className="modal-footer">
               <button
@@ -142,7 +124,7 @@ const ModalEdit = ({ praticien }) => {
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={updatePraticien}
+                onClick={updateMedicament}
               >
                 Enregistrer
               </button>
