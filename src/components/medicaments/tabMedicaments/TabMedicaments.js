@@ -3,8 +3,6 @@ import ModalEdit from './modals/ModalEdit';
 import ModalAdd from './modals/ModalAdd';
 import ModalDelete from './modals/ModalDelete';
 import Loader from '../../layouts/Loader';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 
 const TabMedicaments = ({ medicaments, loading }) => {
   return (

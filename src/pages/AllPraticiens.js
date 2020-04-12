@@ -4,7 +4,7 @@ import TabPraticiens from '../components/praticiens/tabPraticiens/TabPraticiens'
 import Pagination from '../components/praticiens/tabPraticiens/Pagination';
 import FullPageLayout from '../components/layouts/FullPageLayout';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 
 const AllPraticiens = () => {
   const [praticiens, setPraticiens] = useState([]);
@@ -87,12 +87,13 @@ const AllPraticiens = () => {
             <FontAwesomeIcon icon={faSearch} />
           </button>
 
-          <input
+          <button
             type="submit"
-            value="Tout"
             className="col-12 col-md-2 form-control btn btn-primary mx-3"
             onClick={() => handleSearch(true)}
-          />
+          >
+            <FontAwesomeIcon icon={faSyncAlt} />
+          </button>
         </div>
         <TabPraticiens praticiens={praticiens} loading={loading} />
         <Pagination pageCount={nombrePages} paginate={paginate} />
